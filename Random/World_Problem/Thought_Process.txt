@@ -16,4 +16,9 @@ passing the populationTotal parameter (For World, Country, and States) and
 another is going to add it's (this->population) to the total and return the
 sum (for City and District)
 
+I took this a little too far from the beginning. Let's start step by step.
+Here's the plan to tackle this problem.
 
+- Make Program Compile by creating all of the constructors
+- Implement PrintPopulation interface/classes
+- Implement PrintWorld interface/class
