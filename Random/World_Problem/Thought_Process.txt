@@ -66,3 +66,9 @@ Here's the plan to tackle this problem.
     print this.name;
     children.printWorld();
   }
+
+* Just finished printWorld implementation. Went smoothly. Again, the reason for the interface
+  was so the classes/sub-classes had a contract to have that method.
+
+* Going to go back through the program and add comments in and fix up any small code style
+  issues.

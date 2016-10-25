@@ -25,7 +25,7 @@ class Main {
 
         System.out.println();
 
-        //myWorld.printWorld();
+        myWorld.printWorld();
     }
 }
 
@@ -35,7 +35,7 @@ class World extends WorldAbstract {
     }
 }
 
-abstract class WorldAbstract extends CountryAbstract implements PopulationInterface {
+abstract class WorldAbstract extends CountryAbstract implements PopulationInterface, PrintWorldInterface {
     Country countries[];
 
     public WorldAbstract (Country... entities) {
@@ -54,6 +54,14 @@ abstract class WorldAbstract extends CountryAbstract implements PopulationInterf
         }
 
         System.out.println(sum);
+    }
+
+    public void printWorld() {
+        System.out.println(this.name);
+
+        for(Country country : countries) {
+            country.printWorld();
+        }
     }
 }
 
@@ -77,7 +85,7 @@ class Country extends CountryAbstract {
 
 }
 
-abstract class CountryAbstract extends StateAbstract implements PopulationInterface {
+abstract class CountryAbstract extends StateAbstract implements PopulationInterface, PrintWorldInterface {
     State states[];
 
     public CountryAbstract(String name, State... entities) {
@@ -119,6 +127,20 @@ abstract class CountryAbstract extends StateAbstract implements PopulationInterf
         return population;
     }
 
+    public void printWorld() {
+        System.out.println(this.name);
+
+        for(State state : states) {
+            state.printWorld();
+        }
+        for(City city : cities) {
+            city.printWorld();
+        }
+        for(District district : districts) {
+            district.printWorld();
+        }
+    }
+
 }
 
 class State extends StateAbstract {
@@ -131,7 +153,7 @@ class State extends StateAbstract {
     }
 }
 
-abstract class StateAbstract extends Name implements PopulationInterface{
+abstract class StateAbstract extends Name implements PopulationInterface, PrintWorldInterface {
     City cities[];
     District districts[];
 
@@ -158,6 +180,18 @@ abstract class StateAbstract extends Name implements PopulationInterface{
 
         return population;
     }
+
+    public void printWorld() {
+        System.out.println(this.name);
+
+        for (City city : cities) {
+            city.printWorld();
+        }
+
+        for (District district : districts) {
+            district.printWorld();
+        }
+    }
 }
 
 class City extends CityDistrict{
@@ -173,7 +207,7 @@ class District extends CityDistrict{
 
 }
 
-abstract class CityDistrict extends Population implements PopulationInterface {
+abstract class CityDistrict extends Population implements PopulationInterface, PrintWorldInterface {
     public CityDistrict(String name, int population) {
         super(name, population);
     }
@@ -182,6 +216,9 @@ abstract class CityDistrict extends Population implements PopulationInterface {
         return this.population + population;
     }
 
+    public void printWorld() {
+        System.out.println(this.name);
+    }
 }
 
 abstract class Population extends Name {
@@ -204,4 +241,8 @@ abstract class Name {
 
 interface PopulationInterface {
     int printPopulation(int population);
+}
+
+interface PrintWorldInterface {
+    void printWorld();
 }
