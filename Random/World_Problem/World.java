@@ -29,28 +29,40 @@ public class Main {
     }
 }
 
-public class World implements PrintPopulation {
+public class World  {
     public World(Country... entities){
 
     }
 }
 
-public class Country implements PrintPopulation {
+public class Country  {
 
 }
 
-public class State implements PrintPopulation {
+public class State  {
 
 }
 
-public class City implements PrintPopulation {
+public class City  {
 
 }
 
-public class District implements PrintPopulation {
+public class District  {
 
 }
 
-interface PrintPopulation {
+abstract class PrintPopulationClass implements PopulationInterface{
+
+
+    int printPopulation(int population) {
+
+    }
+
+    int printPopulation(int population) {
+        return this->population + population;
+    }
+}
+
+interface PopulationInterface {
     int printPopulation(int population);
 }
