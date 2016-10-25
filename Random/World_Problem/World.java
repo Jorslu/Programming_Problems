@@ -1,4 +1,3 @@
-
 // Main Class given. Do not touch anything inside this class.
 class Main {
     public static void main(String[] args) {
@@ -29,130 +28,63 @@ class Main {
     }
 }
 
-class World extends WorldAbstract {
-    public World(Country... entities){
-        super(entities);
+// Author: Jorge Perez
+
+// Interfaces
+interface PopulationInterface {
+    int printPopulation(int population);
+}
+
+interface PrintWorldInterface {
+    void printWorld();
+}
+
+//Base Abstract classes
+abstract class Name {
+    String name;
+
+    public Name(String name) {
+        this.name = name;
     }
 }
 
-abstract class WorldAbstract extends CountryAbstract implements PopulationInterface, PrintWorldInterface {
-    Country countries[];
+abstract class Population extends Name {
+    int population;
 
-    public WorldAbstract (Country... entities) {
-        super("");
-        this.countries = entities;
-        this.states = new State[]{};
-        this.cities = new City[]{};
-        this.districts = new District[]{};
-    }
-
-    public void printPopulation() {
-        int sum = 0;
-
-        for(Country country : countries) {
-            sum = country.printPopulation(sum);
-        }
-
-        System.out.println(sum);
-    }
-
-    public void printWorld() {
-        System.out.println(this.name);
-
-        for(Country country : countries) {
-            country.printWorld();
-        }
-    }
-}
-
-class Country extends CountryAbstract {
-
-    public Country(String name, State... entities) {
-        super(name, entities);
-    }
-
-    public Country(String name, City... entities) {
-        super(name, entities);
-    }
-
-    public Country(String name, State state, City city) {
-        super(name, state, city);
-    }
-
-    public Country(String name, State state, City city1, City city2, District district) {
-        super(name, state, city1, city2, district);
-    }
-
-}
-
-abstract class CountryAbstract extends StateAbstract implements PopulationInterface, PrintWorldInterface {
-    State states[];
-
-    public CountryAbstract(String name, State... entities) {
+    public Population(String name, int population) {
         super(name);
-        this.states = entities;
+        this.population = population;
     }
+}
 
-    public CountryAbstract(String name, City... entities) {
-        super(name, entities);
-        this.states = new State[]{};
-    }
-
-    public CountryAbstract(String name, State state, City city) {
-        super(name, city);
-        this.states = new State[]{state};
-    }
-
-    public CountryAbstract(String name, State state, City city1, City city2, District district) {
-        super(name, city1, city2, district);
-        this.states = new State[]{state};
-    }
-
-    //I have this here because if not, World constructor will throw error.
-    public CountryAbstract(String name) {
-        super(name);
+//City & District Abstract/Concrete
+abstract class CityDistrict extends Population implements PopulationInterface, PrintWorldInterface {
+    public CityDistrict(String name, int population) {
+        super(name, population);
     }
 
     public int printPopulation(int population) {
-        for(State state : states) {
-            population = state.printPopulation(population);
-        }
-        for(City city : cities) {
-            population = city.printPopulation(population);
-        }
-        for(District district : districts) {
-            population = district.printPopulation(population);
-        }
-
-        return population;
+        return this.population + population;
     }
 
     public void printWorld() {
         System.out.println(this.name);
-
-        for(State state : states) {
-            state.printWorld();
-        }
-        for(City city : cities) {
-            city.printWorld();
-        }
-        for(District district : districts) {
-            district.printWorld();
-        }
-    }
-
-}
-
-class State extends StateAbstract {
-    public State(String name, City... entities){
-        super(name, entities);
-    }
-
-    public State(String name, City city1, City city2, District district) {
-        super(name, city1, city2, district);
     }
 }
 
+class City extends CityDistrict {
+    public City(String name, int population) {
+        super(name, population);
+    }
+}
+
+class District extends CityDistrict {
+    public District(String name, int population) {
+        super(name, population);
+    }
+}
+
+// State Abstract/Concrete
 abstract class StateAbstract extends Name implements PopulationInterface, PrintWorldInterface {
     City cities[];
     District districts[];
@@ -194,55 +126,142 @@ abstract class StateAbstract extends Name implements PopulationInterface, PrintW
     }
 }
 
-class City extends CityDistrict{
-    public City(String name, int population) {
-        super(name, population);
+class State extends StateAbstract {
+    public State(String name, City... entities) {
+        super(name, entities);
+    }
+
+    public State(String name, City city1, City city2, District district) {
+        super(name, city1, city2, district);
     }
 }
 
-class District extends CityDistrict{
-    public District(String name, int population) {
-        super(name, population);
+// Country Abstract/Concrete
+abstract class CountryAbstract extends StateAbstract implements PopulationInterface, PrintWorldInterface {
+    State states[];
+
+    public CountryAbstract(String name, State... entities) {
+        super(name);
+        this.states = entities;
     }
 
-}
+    public CountryAbstract(String name, City... entities) {
+        super(name, entities);
+        this.states = new State[]{};
+    }
 
-abstract class CityDistrict extends Population implements PopulationInterface, PrintWorldInterface {
-    public CityDistrict(String name, int population) {
-        super(name, population);
+    public CountryAbstract(String name, State state, City city) {
+        super(name, city);
+        this.states = new State[]{state};
+    }
+
+    public CountryAbstract(String name, State state, City city1, City city2, District district) {
+        super(name, city1, city2, district);
+        this.states = new State[]{state};
+    }
+
+    //I have this here because if not, World constructor will throw error.
+    // I honestly do not know why I need this if the Name Parent class has
+    // this same constructor..
+    public CountryAbstract(String name) {
+        super(name);
     }
 
     public int printPopulation(int population) {
-        return this.population + population;
+        for(State state : states) {
+            population = state.printPopulation(population);
+        }
+
+        for(City city : cities) {
+            population = city.printPopulation(population);
+        }
+
+        for(District district : districts) {
+            population = district.printPopulation(population);
+        }
+
+        return population;
     }
 
     public void printWorld() {
         System.out.println(this.name);
+
+        for(State state : states) {
+            state.printWorld();
+        }
+
+        for(City city : cities) {
+            city.printWorld();
+        }
+
+        for(District district : districts) {
+            district.printWorld();
+        }
     }
 }
 
-abstract class Population extends Name {
-    int population;
+class Country extends CountryAbstract {
 
-    public Population(String name, int population) {
-        super(name);
-        this.population = population;
+    public Country(String name, State... entities) {
+        super(name, entities);
     }
 
-}
+    public Country(String name, City... entities) {
+        super(name, entities);
+    }
 
-abstract class Name {
-    String name;
+    public Country(String name, State state, City city) {
+        super(name, state, city);
+    }
 
-    public Name(String name) {
-        this.name = name;
+    public Country(String name, State state, City city1, City city2, District district) {
+        super(name, state, city1, city2, district);
     }
 }
 
-interface PopulationInterface {
-    int printPopulation(int population);
+// World Abstract/Concrete
+abstract class WorldAbstract extends CountryAbstract implements PopulationInterface, PrintWorldInterface {
+    Country countries[];
+
+    public WorldAbstract (Country... entities) {
+
+        // Have this here because of I'm instantiating all the way to the parent classes
+        // And even though I know world doesn't have a name, that doesn't mean it can't
+        // have an empty string :)
+        super("");
+        this.countries = entities;
+        this.states = new State[]{};
+        this.cities = new City[]{};
+        this.districts = new District[]{};
+    }
+
+    // After the fact, I realized (void printPopulation) wasn't part of the
+    // interface contract. Modified it after the fact.
+    public int printPopulation() {
+        int sum = 0;
+
+        for(Country country : countries) {
+            sum = country.printPopulation(sum);
+        }
+
+        System.out.println(sum);
+
+        return 0;
+    }
+
+    public void printWorld() {
+        System.out.println(this.name);
+
+        for(Country country : countries) {
+            country.printWorld();
+        }
+    }
 }
 
-interface PrintWorldInterface {
-    void printWorld();
+class World extends WorldAbstract {
+    public World(Country... entities) {
+        super(entities);
+    }
 }
+
+

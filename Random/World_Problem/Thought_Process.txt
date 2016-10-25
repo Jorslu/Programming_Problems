@@ -72,3 +72,26 @@ Here's the plan to tackle this problem.
 
 * Going to go back through the program and add comments in and fix up any small code style
   issues.
+
+* Added a couple of comments, there is definitely one in the WorldAbstract and CountryAbstract classes
+  about me not understanding why a particular section works. Just thought you should know about those,
+  since I would probably research as to why the super(name) doesn’t work in World. I also re-ordered
+  the code so you may understand it and read it a bit easier.
+
+* I hope you enjoyed this OOP Code sample! I did my best to stay away from google, though I did use
+  the javadocs as it’s been a little while and needed a java refresher. I’d love to answer any questions
+  or make things clearer. Just shoot me an email.
+
+- Jorge Perez
+
+Sources:
+
+- Where I got the problem from. I stayed above the solution explanation. Hopefully there’s some differences
+in our approach!
+http://blog.sirhamy.com/interviewq-myworld-solution/
+
+- I used this page to implement the abstract classes and inheritance correctly.
+https://docs.oracle.com/javase/tutorial/java/IandI/index.html
+
+- Arbitrary Number of Arguments. Learned something new!
+https://docs.oracle.com/javase/tutorial/java/javaOO/arguments.html
