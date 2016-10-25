@@ -22,3 +22,26 @@ Here's the plan to tackle this problem.
 - Make Program Compile by creating all of the constructors
 - Implement PrintPopulation interface/classes
 - Implement PrintWorld interface/class
+
+
+* Tried making abstract World Constructor - Doesn't make sense because why
+  would you want one super class containing all of your programs constructors?
+
+* Each Class has its own overloaded constructors because we have several
+  different ways to construct the classes given the myWorld initialization.
+
+* Also want to mention that you want to start these from the "bottom up" so
+  the compiler can guide you a little bit. (Cities & Districts -> States ->
+  Countries -> World)
+
+* Along with the bottom up approach, because of the specs given, I am also
+  making a hierarchy that looks like this for abstract class inheritance
+
+        Name - Has a name -----------------------------------------------
+        |                                                               |
+        Population - Classes with Population (and parent name)          State - Has cities and districts + parent vars
+        |								|
+        CityDistrict - Class has both parent name and population        Country - has States + parent vars
+									|
+									World - Has countries + parent vars
+    
