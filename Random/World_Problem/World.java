@@ -29,48 +29,119 @@ public class Main {
     }
 }
 
-public class World {
+public class World implements CountryAbstract{
+    Country countries[];
     public World(Country... entities){
+        this.countries = entities;
 
     }
 }
 
-public class Country {
-    public Country(String name, State... entities) {
+public class Country extends CountryAbstract{
 
+    public Country(String name, State... entities) {
+        super(name, entities);
     }
 
     public Country(String name, City... entities) {
-
+        super(name, entities);
     }
 
     public Country(String name, State state, City city) {
-
+        super(name, state, city);
     }
 
     public Country(String name, State state, City city1, City city2, District district) {
-
+        super(name, state, city1, city2, district);
     }
 
 }
 
-public class State {
+abstract class CountryAbstract extends StateAbstract {
+    State states[];
+
+    public CountryAbstract(String name, State... entities) {
+        super(name);
+        this.states = entities;
+    }
+
+    public CountryAbstract(String name, City... entities) {
+        super(name, entities);
+    }
+
+    public CountryAbstract(String name, State state, City city) {
+        super(name, city);
+        this.states = new State[]{state};
+    }
+
+    public CountryAbstract(String name, State state, City city1, City city2, District district) {
+        super(name, city1, city2, district);
+        this.states = new State[]{state};
+    }
+}
+
+public class State extends StateAbstract {
     public State(String name, City... entities){
-
+        super(name, entities);
     }
 
-    public State(String name, City city1, City city2, District district1) {
+    public State(String name, City city1, City city2, District district) {
+        super(name, city1, city2, district);
 
     }
 }
 
-public class City {
-    public City(String name, int population) {}
+abstract class StateAbstract extends Name {
+    City cities[];
+    District districts[];
+
+    public StateAbstract(String name, City... entities) {
+        super(name);
+        this.cities = entities;
+    }
+
+    public StateAbstract(String name, City city1, City city2, District district) {
+        super(name);
+        this.cities = new City[]{city1, city2};
+        this.districts = new District[]{district};
+    }
 }
 
-public class District {
-    public District(String name, int population) {}
+public class City extends CityDistrict{
+    public City(String name, int population) {
+        super(name, population);
+    }
+}
 
+public class District extends CityDistrict{
+    public District(String name, int population) {
+        super(name, population);
+    }
+
+}
+
+abstract class CityDistrict extends Population {
+    public CityDistrict(String name, int population) {
+        super(name, population);
+    }
+}
+
+abstract class Population extends Name {
+    int population;
+
+    public Population(String name, int population) {
+        super(name);
+        this.population = population;
+    }
+
+}
+
+abstract class Name {
+    String name;
+
+    public Name(String name) {
+        this.name = name;
+    }
 }
 
 

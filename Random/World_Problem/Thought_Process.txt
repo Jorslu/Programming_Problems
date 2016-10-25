@@ -45,3 +45,6 @@ Here's the plan to tackle this problem.
 									|
 									World - Has countries + parent vars
     
+* Just finished the Inheritance Hierarchy, next up is the Implement PrintPopulation with interfaces
+
+
