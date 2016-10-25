@@ -1,0 +1,11 @@
+I have the problem domain, and possibly a working main class that I hopefully
+copied correctly.
+
+I have to implement printPopulation and printWorld.
+
+I'll tackle printPopulation first.
+
+By the looks of it, it seems like my classes are going to need to extend from
+an abstract class because of the constructor situation.
+
+PrintPopulation and printWorld are probably going to be interfaces.
