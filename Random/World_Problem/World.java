@@ -1,13 +1,13 @@
 
 // Main Class given. Do not touch anything inside this class.
-public class Main {
+class Main {
     public static void main(String[] args) {
         World myWorld = new World(
                 new Country("USA",
                         new State("NY",
                                 new City("New York", 8143197)),
                         new City("LA", 3844829),
-                        new City("Chicago", 28425180),
+                        new City("Chicago", 2842518),
                         new District("Washington D.C.", 658893)),
                 new Country("Germany",
                         new City("Berlin", 3336026),
@@ -25,19 +25,39 @@ public class Main {
 
         System.out.println();
 
-        myWorld.printWorld();
+        //myWorld.printWorld();
     }
 }
 
-public class World implements CountryAbstract{
-    Country countries[];
+class World extends WorldAbstract {
     public World(Country... entities){
-        this.countries = entities;
-
+        super(entities);
     }
 }
 
-public class Country extends CountryAbstract{
+abstract class WorldAbstract extends CountryAbstract implements PopulationInterface {
+    Country countries[];
+
+    public WorldAbstract (Country... entities) {
+        super("");
+        this.countries = entities;
+        this.states = new State[]{};
+        this.cities = new City[]{};
+        this.districts = new District[]{};
+    }
+
+    public void printPopulation() {
+        int sum = 0;
+
+        for(Country country : countries) {
+            sum = country.printPopulation(sum);
+        }
+
+        System.out.println(sum);
+    }
+}
+
+class Country extends CountryAbstract {
 
     public Country(String name, State... entities) {
         super(name, entities);
@@ -57,7 +77,7 @@ public class Country extends CountryAbstract{
 
 }
 
-abstract class CountryAbstract extends StateAbstract {
+abstract class CountryAbstract extends StateAbstract implements PopulationInterface {
     State states[];
 
     public CountryAbstract(String name, State... entities) {
@@ -67,6 +87,7 @@ abstract class CountryAbstract extends StateAbstract {
 
     public CountryAbstract(String name, City... entities) {
         super(name, entities);
+        this.states = new State[]{};
     }
 
     public CountryAbstract(String name, State state, City city) {
@@ -78,26 +99,46 @@ abstract class CountryAbstract extends StateAbstract {
         super(name, city1, city2, district);
         this.states = new State[]{state};
     }
+
+    //I have this here because if not, World constructor will throw error.
+    public CountryAbstract(String name) {
+        super(name);
+    }
+
+    public int printPopulation(int population) {
+        for(State state : states) {
+            population = state.printPopulation(population);
+        }
+        for(City city : cities) {
+            population = city.printPopulation(population);
+        }
+        for(District district : districts) {
+            population = district.printPopulation(population);
+        }
+
+        return population;
+    }
+
 }
 
-public class State extends StateAbstract {
+class State extends StateAbstract {
     public State(String name, City... entities){
         super(name, entities);
     }
 
     public State(String name, City city1, City city2, District district) {
         super(name, city1, city2, district);
-
     }
 }
 
-abstract class StateAbstract extends Name {
+abstract class StateAbstract extends Name implements PopulationInterface{
     City cities[];
     District districts[];
 
     public StateAbstract(String name, City... entities) {
         super(name);
         this.cities = entities;
+        this.districts = new District[]{};
     }
 
     public StateAbstract(String name, City city1, City city2, District district) {
@@ -105,25 +146,42 @@ abstract class StateAbstract extends Name {
         this.cities = new City[]{city1, city2};
         this.districts = new District[]{district};
     }
+
+    public int printPopulation(int population) {
+        for(City city: cities) {
+            population = city.printPopulation(population);
+        }
+
+        for(District district: districts) {
+            population = district.printPopulation(population);
+        }
+
+        return population;
+    }
 }
 
-public class City extends CityDistrict{
+class City extends CityDistrict{
     public City(String name, int population) {
         super(name, population);
     }
 }
 
-public class District extends CityDistrict{
+class District extends CityDistrict{
     public District(String name, int population) {
         super(name, population);
     }
 
 }
 
-abstract class CityDistrict extends Population {
+abstract class CityDistrict extends Population implements PopulationInterface {
     public CityDistrict(String name, int population) {
         super(name, population);
     }
+
+    public int printPopulation(int population) {
+        return this.population + population;
+    }
+
 }
 
 abstract class Population extends Name {
@@ -141,22 +199,6 @@ abstract class Name {
 
     public Name(String name) {
         this.name = name;
-    }
-}
-
-
-abstract class PrintPopulationClass implements PopulationInterface {
-
-    int printPopulation(int population) {
-        //Call Child and pass population
-    }
-}
-
-abstract class SumPopulationClass implements PopulationInterface {
-    int population;
-
-    public int printPopulation(int population) {
-        int sum = this->population + population;
     }
 }
 

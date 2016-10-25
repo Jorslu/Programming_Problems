@@ -47,4 +47,22 @@ Here's the plan to tackle this problem.
     
 * Just finished the Inheritance Hierarchy, next up is the Implement PrintPopulation with interfaces
 
+* Just finished the printPopulation. Essentially, what I did here was
+  implement the interface in all of the abstract classes. The reason
+  for this is because every class needs to implement a printPopulation
+  method and using interfaces guarantees that each class can call it’s
+  sub-class and an exception won’t be thrown. Essentially, the interface
+  is a contract that all of the classes must abide by (i.e. They must 
+  implement the method.)
 
+* For the printWorld(), Something similar should go on. There will be a
+  PrintWorldInterface with a printWorld() method. Then starting from the
+  top, World -> Country -> States -> City -> District. It will happen in
+  a tree traversal fashion (I can’t remember the name of the traversal
+  algo. off the top of my head [Top down depth first?]) but essentially, the method will look
+  something like this.
+
+  printWorld() {
+    print this.name;
+    children.printWorld();
+  }
